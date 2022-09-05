@@ -22,17 +22,17 @@ class Pleylist(models.Model):
 
 
 class Obuna(models.Model):
-    obunalar = models.OneToOneField(Account, on_delete=models.SET_NULL, null=True, related_name="obunalar")
-    obunachilar = models.OneToOneField(Account, on_delete=models.SET_NULL, null=True, related_name="obunachilar")
+    obunalar = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, related_name="obunalar")
+    obunachilar = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, related_name="obunachilar")
 
 
 class Like(models.Model):
-    video = models.OneToOneField(Video, on_delete=models.SET_NULL, null=True)
+    video = models.ForeignKey(Video, on_delete=models.SET_NULL, null=True)
     account = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True)
 
 
 class History(models.Model):
     nom = models.CharField(max_length=100)
-    video = models.FileField()
-    account = models.OneToOneField(Account, on_delete=models.SET_NULL, null=True)
+    video = models.ForeignKey(Video, on_delete=models.SET_NULL, null=True)
+    account = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True)
 

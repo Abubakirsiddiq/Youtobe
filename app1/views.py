@@ -19,22 +19,21 @@ class VideoCreate(generics.CreateAPIView):
     queryset = Video.objects.all()
     serializer_class = VideoSerializers
     def post(self, request):
-        if Account.user == self.request.user:
-            ser = VideoSerializers(data=self.request.data)
-            if ser.is_valid():
-                ser.save()
-            return Response(ser.data)
-        return Response()
+        ac = Account.objects.get(user=request.user)
+        ser = VideoSerializers(data=self.request.data)
+        if ser.is_valid():
+            ser.save(account=ac)
+        return Response(ser.data)
 
 
 class Video(generics.RetrieveUpdateDestroyAPIView):
     queryset = Video.objects.all()
     serializer_class = VideoSerializers
-    def perform_destroy(self, instance):
+    def perform_destroy(self, ab):
         v = Video.objects.get(account=self.request.user)
         if v:
-            instance.delete()
-        return Response(instance)
+            ab.delete()
+        return Response(ab)
 
 
 class PleylistCreate(generics.CreateAPIView):
